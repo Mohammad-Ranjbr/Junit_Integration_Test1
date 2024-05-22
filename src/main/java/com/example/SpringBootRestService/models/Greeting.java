@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Component
+@Component 
 @NoArgsConstructor
 public class Greeting {
 
