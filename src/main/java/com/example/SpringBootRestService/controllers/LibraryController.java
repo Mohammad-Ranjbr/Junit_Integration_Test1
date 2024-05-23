@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class LibraryController {
@@ -45,6 +47,11 @@ public class LibraryController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/getBooks/author/{authorName}")
+    public ResponseEntity<List<Library>> getBooksWithAuthorName(@PathVariable("authorName") String author_name){
+        return new ResponseEntity<>(libraryRepository.findByAuthor(author_name),HttpStatus.OK);
     }
 
 }
