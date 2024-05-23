@@ -8,22 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/v1")
 public class LibraryController {
 
-    private final AddResponse addResponse;
     private final LibraryService libraryService;
     private final LibraryRepository libraryRepository;
 
     @Autowired
-    public LibraryController(LibraryRepository libraryRepository,LibraryService libraryService,AddResponse addResponse){
-        this.addResponse = addResponse;
+    public LibraryController(LibraryRepository libraryRepository,LibraryService libraryService){
         this.libraryService = libraryService;
         this.libraryRepository = libraryRepository;
     }
@@ -35,14 +31,19 @@ public class LibraryController {
             HttpHeaders httpHeaders = new HttpHeaders();
             library.setId(id);
             libraryRepository.save(library);
-            addResponse.setId(id);
-            addResponse.setMessage("Book Added Successfully");
             httpHeaders.add("Unique",id);
-            return new ResponseEntity<>(addResponse,httpHeaders,HttpStatus.CREATED);
+            return new ResponseEntity<>(new AddResponse(id,"Book Added Successfully"),httpHeaders,HttpStatus.CREATED);
         } else {
-            addResponse.setId(id);
-            addResponse.setMessage("Book Already Exist");
-            return new ResponseEntity<>(addResponse,HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new AddResponse(id,"Book Already Exist"),HttpStatus.ACCEPTED);
+        }
+    }
+
+    @GetMapping("/getBooks/{id}")
+    public ResponseEntity<Library> getBooks(@PathVariable("id") String book_id){
+        if(libraryRepository.findById(book_id).isPresent()){
+            return new ResponseEntity<>(libraryRepository.findById(book_id).get(),HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
