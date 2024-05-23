@@ -44,7 +44,7 @@ public class LibraryController {
     public ResponseEntity<Library> getBooks(@PathVariable("id") String book_id){
         if(libraryRepository.findById(book_id).isPresent()){
             return new ResponseEntity<>(libraryRepository.findById(book_id).get(),HttpStatus.OK);
-        } else {
+        } else { // SEARCH
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
