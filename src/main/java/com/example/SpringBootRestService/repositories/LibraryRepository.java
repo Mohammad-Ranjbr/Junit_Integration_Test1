@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LibraryRepository extends JpaRepository<Library,String> {
+public interface LibraryRepository extends JpaRepository<Library,String> , LibraryRepositoryCustom {
 
     List<Library> findByAuthor(String authorName);
 

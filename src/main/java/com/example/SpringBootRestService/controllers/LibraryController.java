@@ -51,7 +51,32 @@ public class LibraryController {
 
     @GetMapping("/getBooks/author/{authorName}")
     public ResponseEntity<List<Library>> getBooksWithAuthorName(@PathVariable("authorName") String author_name){
-        return new ResponseEntity<>(libraryRepository.findByAuthor(author_name),HttpStatus.OK);
+        //return new ResponseEntity<>(libraryRepository.findByAuthor(author_name),HttpStatus.OK);
+        return new ResponseEntity<>(libraryRepository.findAllByAuthor(author_name),HttpStatus.OK);
+    }
+
+    @PutMapping("/updateBook/{id}")
+    public ResponseEntity<Library> updateBook(@PathVariable("id") String book_id , @RequestBody Library library){
+        if(libraryRepository.findById(book_id).isPresent()) {
+            Library libraryInDB = libraryRepository.findById(book_id).get();
+            libraryInDB.setAisle(library.getAisle());
+            libraryInDB.setName(library.getName());
+            libraryInDB.setAuthor(library.getAuthor());
+            libraryRepository.save(libraryInDB);
+            return new ResponseEntity<>(libraryInDB, HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/deleteBook/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable("id") String book_id){
+        if(libraryRepository.findById(book_id).isPresent()) {
+            libraryRepository.deleteById(book_id);
+            return new ResponseEntity<>("Book Deleted Successfully",HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
