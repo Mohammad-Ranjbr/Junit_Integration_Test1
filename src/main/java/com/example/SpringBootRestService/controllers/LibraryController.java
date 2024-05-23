@@ -69,4 +69,14 @@ public class LibraryController {
         }
     }
 
+    @DeleteMapping("/deleteBook/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable("id") String book_id){
+        if(libraryRepository.findById(book_id).isPresent()) {
+            libraryRepository.deleteById(book_id);
+            return new ResponseEntity<>("Book Deleted Successfully",HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
