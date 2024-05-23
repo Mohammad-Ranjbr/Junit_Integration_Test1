@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+
 @SpringBootApplication
 public class SpringBootRestServiceApplication implements CommandLineRunner {
 
@@ -24,16 +26,27 @@ public class SpringBootRestServiceApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-//		Library library = new Library();
-//		library.setId("Book-1");
-//		library.setIsbn("Book");
-//		library.setAisle(1);
-//		library.setAuthor("Mohammad Ranjbar");
-//		library.setName("SpringBoot Rest Service");
-//		libraryRepository.save(library);
+		//Save New Record
+		Library library = new Library();
+		library.setId("Book-2");
+		library.setIsbn("Book");
+		library.setAisle(2);
+		library.setAuthor("Mohammad Ranjbar");
+		library.setName("Spring Security");
+		//libraryRepository.save(library);
 
-		Library library = libraryRepository.findById("Book-1").get();
-		System.out.println(library.getId() + "	:	" + library.getName());
+		//Get Record
+		Library library1 = libraryRepository.findById("Book-1").get();
+		System.out.println(library.getId() + "	:	" + library1.getName());
+
+		//Get All Records
+		List<Library> allRecords = libraryRepository.findAll();
+		for(Library item : allRecords){
+			System.out.println(item.getId() + "	: " + item.getName());
+		}
+
+		//Delete Record
+		//libraryRepository.delete(library);
 
 	}
 
