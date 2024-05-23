@@ -51,7 +51,8 @@ public class LibraryController {
 
     @GetMapping("/getBooks/author/{authorName}")
     public ResponseEntity<List<Library>> getBooksWithAuthorName(@PathVariable("authorName") String author_name){
-        return new ResponseEntity<>(libraryRepository.findByAuthor(author_name),HttpStatus.OK);
+        //return new ResponseEntity<>(libraryRepository.findByAuthor(author_name),HttpStatus.OK);
+        return new ResponseEntity<>(libraryRepository.findAllByAuthor(author_name),HttpStatus.OK);
     }
 
 }
