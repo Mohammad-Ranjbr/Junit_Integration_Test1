@@ -43,6 +43,7 @@ class SpringBootRestServiceApplicationTests {
 	}
 
 	@Test
+	//Approach 1 : Call method in controller class and pass them object
 	public void addBookTest(){
 		Library library = new Library();
 		library.setAisle(20);
@@ -55,6 +56,10 @@ class SpringBootRestServiceApplicationTests {
 		ResponseEntity<AddResponse> responseEntity = libraryController.addBook(library);
 		System.out.println(responseEntity.getStatusCode());
 		Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
+		// Body Of ResponseEntity
+		AddResponse addResponse = responseEntity.getBody();
+        Assertions.assertEquals(library.getId(),addResponse.getId());
+		Assertions.assertEquals("Book Added Successfully",addResponse.getMessage());
 	}
 
 }
