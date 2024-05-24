@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -95,6 +96,7 @@ class SpringBootRestServiceApplicationTests {
 		ResponseEntity<AddResponse> responseEntity = libraryController.addBook(library);
 		System.out.println(responseEntity.getStatusCode());
 		Assertions.assertEquals(HttpStatus.ACCEPTED,responseEntity.getStatusCode());
+		//When you invoke method your response as Object not JSON
 		Assertions.assertNotNull(responseEntity.getBody());
 		Assertions.assertEquals(library.getId(),responseEntity.getBody().getId());
 		Assertions.assertEquals("Book Already Exist",responseEntity.getBody().getMessage());
@@ -103,7 +105,7 @@ class SpringBootRestServiceApplicationTests {
 	//Mock for invoke method - MockMvc for service call`s
 
 	@Test
-	public void addBookControllerTest() throws Exception {
+	public void addBook_whenBookDoesNotExist_shouldReturnCreated_controllerTest() throws Exception {
 		Library library = new Library();
 		library.setAisle(20);
 		library.setName("Spring");
@@ -118,7 +120,11 @@ class SpringBootRestServiceApplicationTests {
 		//Perform method for call service - Mock Call
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/addBook")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(jsonLibrary)).andExpect(MockMvcResultMatchers.status().isCreated());
+				.content(jsonLibrary)).andExpect(MockMvcResultMatchers.status().isCreated())
+				//When you call service (Mock Call) your response as JSON not Object
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(library.getId()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Book Added Successfully"))
+				.andDo(MockMvcResultHandlers.print());
 		verify(libraryService,times(1)).buildID(library.getIsbn(),library.getAisle());
 		verify(libraryService,times(1)).checkBookAlreadyExist(library.getId());
 	}

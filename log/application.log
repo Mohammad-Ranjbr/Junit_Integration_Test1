@@ -195,3 +195,49 @@ This generated password is for development use only. Your security configuration
 2024-05-25T02:05:24.270+03:30  INFO 12608 --- [SpringBootRestService] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-05-25T02:05:24.273+03:30  INFO 12608 --- [SpringBootRestService] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-05-25T02:05:24.280+03:30  INFO 12608 --- [SpringBootRestService] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-05-25T02:15:04.575+03:30  INFO 6868 --- [SpringBootRestService] [main] .S.SpringBootRestServiceApplicationTests : Starting SpringBootRestServiceApplicationTests using Java 17.0.10 with PID 6868 (started by Mohammad in E:\Projects\SpringBootRestService\SpringBootRestService)
+2024-05-25T02:15:04.577+03:30  INFO 6868 --- [SpringBootRestService] [main] .S.SpringBootRestServiceApplicationTests : No active profile set, falling back to 1 default profile: "default"
+2024-05-25T02:15:05.521+03:30  INFO 6868 --- [SpringBootRestService] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-25T02:15:05.614+03:30  INFO 6868 --- [SpringBootRestService] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 1 JPA repository interface.
+2024-05-25T02:15:07.781+03:30  INFO 6868 --- [SpringBootRestService] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-25T02:15:07.923+03:30  INFO 6868 --- [SpringBootRestService] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-25T02:15:08.029+03:30  INFO 6868 --- [SpringBootRestService] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-25T02:15:08.260+03:30  INFO 6868 --- [SpringBootRestService] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-25T02:15:08.325+03:30  INFO 6868 --- [SpringBootRestService] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-25T02:15:08.684+03:30  INFO 6868 --- [SpringBootRestService] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@57b711b6
+2024-05-25T02:15:08.687+03:30  INFO 6868 --- [SpringBootRestService] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-25T02:15:08.768+03:30  WARN 6868 --- [SpringBootRestService] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-25T02:15:10.082+03:30  INFO 6868 --- [SpringBootRestService] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-25T02:15:10.175+03:30  INFO 6868 --- [SpringBootRestService] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-25T02:15:10.470+03:30  WARN 6868 --- [SpringBootRestService] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-25T02:15:11.519+03:30  INFO 6868 --- [SpringBootRestService] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-05-25T02:15:11.520+03:30  INFO 6868 --- [SpringBootRestService] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-05-25T02:15:11.524+03:30  INFO 6868 --- [SpringBootRestService] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2024-05-25T02:15:11.589+03:30  INFO 6868 --- [SpringBootRestService] [main] .S.SpringBootRestServiceApplicationTests : Started SpringBootRestServiceApplicationTests in 7.44 seconds (process running for 8.99)
+2024-05-25T02:15:12.197+03:30  INFO 6868 --- [SpringBootRestService] [main] c.e.S.controllers.LibraryController      : Book do not exist so creating one...
+2024-05-25T02:15:12.413+03:30  INFO 6868 --- [SpringBootRestService] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-25T02:15:12.418+03:30  INFO 6868 --- [SpringBootRestService] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-25T02:15:12.433+03:30  INFO 6868 --- [SpringBootRestService] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-05-25T02:17:16.082+03:30  INFO 17256 --- [SpringBootRestService] [main] .S.SpringBootRestServiceApplicationTests : Starting SpringBootRestServiceApplicationTests using Java 17.0.10 with PID 17256 (started by Mohammad in E:\Projects\SpringBootRestService\SpringBootRestService)
+2024-05-25T02:17:16.085+03:30  INFO 17256 --- [SpringBootRestService] [main] .S.SpringBootRestServiceApplicationTests : No active profile set, falling back to 1 default profile: "default"
+2024-05-25T02:17:17.043+03:30  INFO 17256 --- [SpringBootRestService] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-25T02:17:17.140+03:30  INFO 17256 --- [SpringBootRestService] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 86 ms. Found 1 JPA repository interface.
+2024-05-25T02:17:19.282+03:30  INFO 17256 --- [SpringBootRestService] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-25T02:17:19.429+03:30  INFO 17256 --- [SpringBootRestService] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-25T02:17:19.526+03:30  INFO 17256 --- [SpringBootRestService] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-25T02:17:19.746+03:30  INFO 17256 --- [SpringBootRestService] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-25T02:17:19.802+03:30  INFO 17256 --- [SpringBootRestService] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-25T02:17:20.132+03:30  INFO 17256 --- [SpringBootRestService] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@474ce6b8
+2024-05-25T02:17:20.135+03:30  INFO 17256 --- [SpringBootRestService] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-25T02:17:20.209+03:30  WARN 17256 --- [SpringBootRestService] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-25T02:17:21.536+03:30  INFO 17256 --- [SpringBootRestService] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-25T02:17:21.618+03:30  INFO 17256 --- [SpringBootRestService] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-25T02:17:21.970+03:30  WARN 17256 --- [SpringBootRestService] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-25T02:17:22.730+03:30  INFO 17256 --- [SpringBootRestService] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-05-25T02:17:22.730+03:30  INFO 17256 --- [SpringBootRestService] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-05-25T02:17:22.733+03:30  INFO 17256 --- [SpringBootRestService] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-05-25T02:17:22.779+03:30  INFO 17256 --- [SpringBootRestService] [main] .S.SpringBootRestServiceApplicationTests : Started SpringBootRestServiceApplicationTests in 7.155 seconds (process running for 8.634)
+2024-05-25T02:17:23.221+03:30  INFO 17256 --- [SpringBootRestService] [main] c.e.S.controllers.LibraryController      : Book do not exist so creating one...
+2024-05-25T02:17:23.364+03:30  INFO 17256 --- [SpringBootRestService] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-25T02:17:23.366+03:30  INFO 17256 --- [SpringBootRestService] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-25T02:17:23.375+03:30  INFO 17256 --- [SpringBootRestService] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
