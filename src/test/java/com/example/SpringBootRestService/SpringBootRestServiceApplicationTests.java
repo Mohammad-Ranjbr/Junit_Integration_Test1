@@ -5,6 +5,7 @@ import com.example.SpringBootRestService.models.Library;
 import com.example.SpringBootRestService.payloads.AddResponse;
 import com.example.SpringBootRestService.services.Implementation.LibraryServiceImpl;
 import com.example.SpringBootRestService.services.LibraryService;
+import org.aspectj.runtime.internal.Conversions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class SpringBootRestServiceApplicationTests {
@@ -58,6 +61,29 @@ class SpringBootRestServiceApplicationTests {
 		Assertions.assertNotNull(responseEntity.getBody());
         Assertions.assertEquals(library.getId(),responseEntity.getBody().getId());
 		Assertions.assertEquals("Book Added Successfully",responseEntity.getBody().getMessage());
+		//This code checks whether the buildID method of the LibraryService class with the specified
+		//parameters (library.getIsbn() and library.getAisle()) is called exactly once. If this call does not occur
+		//exactly once or any call is missing, the test will fail.
+		verify(libraryService, times(1)).buildID(library.getIsbn(), library.getAisle());
+		verify(libraryService, times(1)).checkBookAlreadyExist(library.getId());
+	}
+
+	@Test
+	public void addBook_whenBookAlreadyExists_shouldReturnAccepted(){
+		Library library = new Library();
+		library.setAisle(20);
+		library.setName("Spring");
+		library.setIsbn("Book");
+		library.setAuthor("Mohammad Ranjbar");
+		library.setId("Book-20");
+		when(libraryService.buildID(anyString(), Conversions.intValue(any()))).thenReturn(library.getId());
+		when(libraryService.checkBookAlreadyExist(anyString())).thenReturn(true);
+		ResponseEntity<AddResponse> responseEntity = libraryController.addBook(library);
+		System.out.println(responseEntity.getStatusCode());
+		Assertions.assertEquals(HttpStatus.ACCEPTED,responseEntity.getStatusCode());
+		Assertions.assertNotNull(responseEntity.getBody());
+		Assertions.assertEquals(library.getId(),responseEntity.getBody().getId());
+		Assertions.assertEquals("Book Already Exist",responseEntity.getBody().getMessage());
 	}
 
 }
