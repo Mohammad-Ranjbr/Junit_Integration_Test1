@@ -3,7 +3,6 @@ package com.example.SpringBootRestService;
 import com.example.SpringBootRestService.controllers.LibraryController;
 import com.example.SpringBootRestService.models.Library;
 import com.example.SpringBootRestService.payloads.AddResponse;
-import com.example.SpringBootRestService.repositories.LibraryRepository;
 import com.example.SpringBootRestService.services.Implementation.LibraryServiceImpl;
 import com.example.SpringBootRestService.services.LibraryService;
 import org.junit.jupiter.api.Assertions;
@@ -20,10 +19,9 @@ import static org.mockito.Mockito.when;
 class SpringBootRestServiceApplicationTests {
 
 	private final LibraryController libraryController;
+	//Fake Object -> @Mock    -    Fake Bean -> @MockBean
 	@MockBean
 	private LibraryService libraryService;
-	@MockBean
-	private LibraryRepository libraryRepository;
 
 	@Autowired
 	public SpringBootRestServiceApplicationTests(LibraryController libraryController){
@@ -44,7 +42,7 @@ class SpringBootRestServiceApplicationTests {
 
 	@Test
 	//Approach 1 : Call method in controller class and pass them object
-	public void addBookTest(){
+	public void addBook_whenBookDoesNotExist_shouldReturnCreated(){
 		Library library = new Library();
 		library.setAisle(20);
 		library.setName("Spring");
@@ -55,11 +53,11 @@ class SpringBootRestServiceApplicationTests {
 		when(libraryService.checkBookAlreadyExist(library.getId())).thenReturn(false);
 		ResponseEntity<AddResponse> responseEntity = libraryController.addBook(library);
 		System.out.println(responseEntity.getStatusCode());
-		Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
+		Assertions.assertEquals(HttpStatus.CREATED,responseEntity.getStatusCode());
 		// Body Of ResponseEntity
-		AddResponse addResponse = responseEntity.getBody();
-        Assertions.assertEquals(library.getId(),addResponse.getId());
-		Assertions.assertEquals("Book Added Successfully",addResponse.getMessage());
+		Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(library.getId(),responseEntity.getBody().getId());
+		Assertions.assertEquals("Book Added Successfully",responseEntity.getBody().getMessage());
 	}
 
 }
