@@ -8,6 +8,7 @@ import com.example.SpringBootRestService.services.Implementation.LibraryServiceI
 import com.example.SpringBootRestService.services.LibraryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.runtime.internal.Conversions;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -59,12 +63,7 @@ class SpringBootRestServiceApplicationTests {
 	@Test
 	//Approach 1 : Call method in controller class and pass them object
 	public void addBook_whenBookDoesNotExist_shouldReturnCreated(){
-		Library library = new Library();
-		library.setAisle(20);
-		library.setName("Spring");
-		library.setIsbn("Book");
-		library.setAuthor("Mohammad Ranjbar");
-		library.setId("Book-20");
+		Library library = buildlibrary();
 		when(libraryService.buildID(library.getIsbn(),library.getAisle())).thenReturn(library.getId());
 		when(libraryService.checkBookAlreadyExist(library.getId())).thenReturn(false);
 		when(libraryRepository.save(any())).thenReturn(library);
@@ -84,12 +83,7 @@ class SpringBootRestServiceApplicationTests {
 
 	@Test
 	public void addBook_whenBookAlreadyExists_shouldReturnAccepted(){
-		Library library = new Library();
-		library.setAisle(20);
-		library.setName("Spring");
-		library.setIsbn("Book");
-		library.setAuthor("Mohammad Ranjbar");
-		library.setId("Book-20");
+		Library library = buildlibrary();
 		when(libraryService.buildID(anyString(), Conversions.intValue(any()))).thenReturn(library.getId());
 		when(libraryService.checkBookAlreadyExist(anyString())).thenReturn(true);
 		when(libraryRepository.save(any())).thenReturn(library);
@@ -106,12 +100,7 @@ class SpringBootRestServiceApplicationTests {
 
 	@Test
 	public void addBook_whenBookDoesNotExist_shouldReturnCreated_controllerTest() throws Exception {
-		Library library = new Library();
-		library.setAisle(20);
-		library.setName("Spring");
-		library.setIsbn("Book");
-		library.setAuthor("Mohammad Ranjbar");
-		library.setId("Book-20");
+		Library library = buildlibrary();
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonLibrary = objectMapper.writeValueAsString(library);
 		when(libraryService.buildID(library.getIsbn(),library.getAisle())).thenReturn(library.getId());
@@ -127,6 +116,40 @@ class SpringBootRestServiceApplicationTests {
 				.andDo(MockMvcResultHandlers.print());
 		verify(libraryService,times(1)).buildID(library.getIsbn(),library.getAisle());
 		verify(libraryService,times(1)).checkBookAlreadyExist(library.getId());
+	}
+
+	@Test
+	public void getBook_withAuthorName_shouldReturnOk() throws Exception {
+		List<Library> libraryList = new ArrayList<>();
+		Library library1 = new Library();
+		library1.setAisle(20);
+		library1.setName("Spring");
+		library1.setIsbn("Book");
+		library1.setAuthor("Mohammad");
+		library1.setId("Book-20");
+		Library library2 = new Library();
+		library2.setAisle(20);
+		library2.setName("Spring Security");
+		library2.setIsbn("Book");
+		library2.setAuthor("Mohammad");
+		library2.setId("Book-21");
+		libraryList.add(library1);
+		libraryList.add(library2);
+		when(libraryRepository.findAllByAuthor(any())).thenReturn(libraryList);
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getBooks/author/").param("authorName","Mohammad"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.length()", CoreMatchers.is(2)))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value("Book-20"))
+				.andDo(MockMvcResultHandlers.print());
+	}
+
+	public Library buildlibrary(){
+		Library library = new Library();
+		library.setAisle(20);
+		library.setName("Spring");
+		library.setIsbn("Book");
+		library.setAuthor("Mohammad Ranjbar");
+		library.setId("Book-20");
+		return library;
 	}
 
 }
