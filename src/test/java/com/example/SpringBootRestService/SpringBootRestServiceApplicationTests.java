@@ -118,29 +118,34 @@ class SpringBootRestServiceApplicationTests {
 		verify(libraryService,times(1)).checkBookAlreadyExist(library.getId());
 	}
 
-//	@Test
-//	public void getBook_withAuthorName_shouldReturnOk() throws Exception {
-//		List<Library> libraryList = new ArrayList<>();
-//		Library library1 = new Library();
-//		library1.setAisle(20);
-//		library1.setName("Spring");
-//		library1.setIsbn("Book");
-//		library1.setAuthor("Mohammad");
-//		library1.setId("Book-20");
-//		Library library2 = new Library();
-//		library2.setAisle(20);
-//		library2.setName("Spring Security");
-//		library2.setIsbn("Book");
-//		library2.setAuthor("Mohammad");
-//		library2.setId("Book-21");
-//		libraryList.add(library1);
-//		libraryList.add(library2);
-//		when(libraryRepository.findAllByAuthor(any())).thenReturn(libraryList);
-//		this.mockMvc.perform(MockMvcRequestBuilders.get("/getBooks/author/{authorName}").param("authorName","Mohammad"))
-//				.andExpect(MockMvcResultMatchers.jsonPath("$.length()", CoreMatchers.is(2)))
-//				.andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value("Book-20"))
-//				.andDo(MockMvcResultHandlers.print());
-//	}
+	@Test
+	public void getBook_withAuthorName_shouldReturnOk() throws Exception {
+		List<Library> libraryList = new ArrayList<>();
+		Library library1 = new Library();
+		library1.setAisle(20);
+		library1.setName("Spring");
+		library1.setIsbn("Book");
+		library1.setAuthor("Mohammad");
+		library1.setId("Book-20");
+		Library library2 = new Library();
+		library2.setAisle(20);
+		library2.setName("Spring Security");
+		library2.setIsbn("Book");
+		library2.setAuthor("Mohammad");
+		library2.setId("Book-21");
+		libraryList.add(library1);
+		libraryList.add(library2);
+
+		when(libraryRepository.findAllByAuthor(any())).thenReturn(libraryList);
+
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getBooks/author/{authorName}", "Mohammad")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.length()", CoreMatchers.is(2)))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value("Book-20"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.[1].id").value("Book-21"))
+				.andDo(MockMvcResultHandlers.print());
+	}
 
 	@Test
 	public void updateBook_shouldReturnOk() throws Exception {
@@ -186,7 +191,7 @@ class SpringBootRestServiceApplicationTests {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String libraryJson = objectMapper.writeValueAsString(library);
 
-		mockMvc.perform(MockMvcRequestBuilders.delete("api/v1/deleteBook")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/deleteBook")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(libraryJson))
 				.andExpect(MockMvcResultMatchers.status().isOk())
