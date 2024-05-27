@@ -180,7 +180,7 @@ class SpringBootRestServiceApplicationTests {
 	@Test
 	public void deleteBook_shouldReturnNotFound() throws Exception {
 		when(libraryService.getBookById(any())).thenReturn(null);
-		doNothing().when(libraryRepository).deleteById(null);
+		doNothing().when(libraryRepository).deleteById("null");
 		mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/deleteBook/{id}","Book-20"))
 				.andExpect(MockMvcResultMatchers.status().isNotFound());
 		verify(libraryService,times(1)).getBookById("Book-20");
