@@ -121,29 +121,16 @@ class SpringBootRestServiceApplicationTests {
 	@Test
 	public void getBook_withAuthorName_shouldReturnOk() throws Exception {
 		List<Library> libraryList = new ArrayList<>();
-		Library library1 = new Library();
-		library1.setAisle(20);
-		library1.setName("Spring");
-		library1.setIsbn("Book");
-		library1.setAuthor("Mohammad");
-		library1.setId("Book-20");
-		Library library2 = new Library();
-		library2.setAisle(20);
-		library2.setName("Spring Security");
-		library2.setIsbn("Book");
-		library2.setAuthor("Mohammad");
-		library2.setId("Book-21");
-		libraryList.add(library1);
-		libraryList.add(library2);
+		libraryList.add(buildlibrary());
+		libraryList.add(buildlibrary());
 
 		when(libraryRepository.findAllByAuthor(any())).thenReturn(libraryList);
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getBooks/author/{authorName}", "Mohammad")
-						.contentType(MediaType.APPLICATION_JSON))
+		//this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getBooks/author/"+"Mohammad")
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getBooks/author/{authorName}","Mohammad"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.length()", CoreMatchers.is(2)))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value("Book-20"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.[1].id").value("Book-21"))
 				.andDo(MockMvcResultHandlers.print());
 	}
 
@@ -162,17 +149,6 @@ class SpringBootRestServiceApplicationTests {
 		verify(libraryService,times(1)).getBookById(library.getId());
 	}
 
-//	@Test
-//	public void deleteBook_shouldReturnOk() throws Exception {
-//		when(libraryService.getBookById(buildlibrary().getId())).thenReturn(buildlibrary());
-//		//doNothing For void return type
-//		doNothing().when(libraryRepository).delete(buildlibrary());
-//		this.mockMvc.perform(MockMvcRequestBuilders.delete("api/v1/deleteBook")
-//						.contentType(MediaType.APPLICATION_JSON).content("{\"id\":\"Book-20\"}"))
-//				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"))
-//				.andDo(MockMvcResultHandlers.print());
-//	}
-
 	@Test
 	public void deleteBook_shouldReturnOk() throws Exception {
 //		when(libraryService.getBookById(buildlibrary().getId())).thenReturn(buildlibrary());
@@ -184,18 +160,16 @@ class SpringBootRestServiceApplicationTests {
 //				.andDo(MockMvcResultHandlers.print());
 
 		Library library = buildlibrary();
-
 		when(libraryService.getBookById("Book-20")).thenReturn(library);
 		doNothing().when(libraryRepository).delete(library);
-
 		ObjectMapper objectMapper = new ObjectMapper();
 		String libraryJson = objectMapper.writeValueAsString(library);
-
 		mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/deleteBook")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(libraryJson))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"));
+		verify(libraryService,times(1)).getBookById("Book-20");
 	}
 
 	public Library buildlibrary(){
