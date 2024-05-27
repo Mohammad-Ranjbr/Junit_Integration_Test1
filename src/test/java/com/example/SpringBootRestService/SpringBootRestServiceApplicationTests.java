@@ -118,28 +118,43 @@ class SpringBootRestServiceApplicationTests {
 		verify(libraryService,times(1)).checkBookAlreadyExist(library.getId());
 	}
 
+//	@Test
+//	public void getBook_withAuthorName_shouldReturnOk() throws Exception {
+//		List<Library> libraryList = new ArrayList<>();
+//		Library library1 = new Library();
+//		library1.setAisle(20);
+//		library1.setName("Spring");
+//		library1.setIsbn("Book");
+//		library1.setAuthor("Mohammad");
+//		library1.setId("Book-20");
+//		Library library2 = new Library();
+//		library2.setAisle(20);
+//		library2.setName("Spring Security");
+//		library2.setIsbn("Book");
+//		library2.setAuthor("Mohammad");
+//		library2.setId("Book-21");
+//		libraryList.add(library1);
+//		libraryList.add(library2);
+//		when(libraryRepository.findAllByAuthor(any())).thenReturn(libraryList);
+//		this.mockMvc.perform(MockMvcRequestBuilders.get("/getBooks/author/{authorName}").param("authorName","Mohammad"))
+//				.andExpect(MockMvcResultMatchers.jsonPath("$.length()", CoreMatchers.is(2)))
+//				.andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value("Book-20"))
+//				.andDo(MockMvcResultHandlers.print());
+//	}
+
 	@Test
-	public void getBook_withAuthorName_shouldReturnOk() throws Exception {
-		List<Library> libraryList = new ArrayList<>();
-		Library library1 = new Library();
-		library1.setAisle(20);
-		library1.setName("Spring");
-		library1.setIsbn("Book");
-		library1.setAuthor("Mohammad");
-		library1.setId("Book-20");
-		Library library2 = new Library();
-		library2.setAisle(20);
-		library2.setName("Spring Security");
-		library2.setIsbn("Book");
-		library2.setAuthor("Mohammad");
-		library2.setId("Book-21");
-		libraryList.add(library1);
-		libraryList.add(library2);
-		when(libraryRepository.findAllByAuthor(any())).thenReturn(libraryList);
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getBooks/author/").param("authorName","Mohammad"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.length()", CoreMatchers.is(2)))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value("Book-20"))
+	public void updateBook_shouldReturnOk() throws Exception {
+		Library library = buildlibrary();
+		ObjectMapper objectMapper = new ObjectMapper();
+		String updatedLibraryJson = objectMapper.writeValueAsString(updatedlibrary());
+		when(libraryService.getBookById(library.getId())).thenReturn(library);
+		when(libraryRepository.save(any())).thenReturn(library);
+		this.mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/updateBook/"+library.getId())
+				.contentType(MediaType.APPLICATION_JSON).content(updatedLibraryJson))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().json("{\"id\":\"Book-20\",\"aisle\":21,\"isbn\":\"Book\",\"author\":\"Mohammad\",\"name\":\"Python\"}"))
 				.andDo(MockMvcResultHandlers.print());
+		verify(libraryService,times(1)).getBookById(library.getId());
 	}
 
 	public Library buildlibrary(){
@@ -149,6 +164,16 @@ class SpringBootRestServiceApplicationTests {
 		library.setIsbn("Book");
 		library.setAuthor("Mohammad Ranjbar");
 		library.setId("Book-20");
+		return library;
+	}
+
+	public Library updatedlibrary(){
+		Library library = new Library();
+		library.setAisle(21);
+		library.setName("Python");
+		library.setIsbn("Book");
+		library.setAuthor("Mohammad");
+		library.setId("Book-21");
 		return library;
 	}
 

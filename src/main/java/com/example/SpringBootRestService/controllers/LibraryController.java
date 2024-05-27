@@ -62,16 +62,22 @@ public class LibraryController {
 
     @PutMapping("/updateBook/{id}")
     public ResponseEntity<Library> updateBook(@PathVariable("id") String book_id , @RequestBody Library library){
-        if(libraryRepository.findById(book_id).isPresent()) {
-            Library libraryInDB = libraryRepository.findById(book_id).get();
-            libraryInDB.setAisle(library.getAisle());
-            libraryInDB.setName(library.getName());
-            libraryInDB.setAuthor(library.getAuthor());
-            libraryRepository.save(libraryInDB);
-            return new ResponseEntity<>(libraryInDB, HttpStatus.OK);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+//        if(libraryRepository.findById(book_id).isPresent()) {
+//            Library libraryInDB = libraryService.getBookById(book_id);
+//            libraryInDB.setAisle(library.getAisle());
+//            libraryInDB.setName(library.getName());
+//            libraryInDB.setAuthor(library.getAuthor());
+//            libraryRepository.save(libraryInDB);
+//            return new ResponseEntity<>(libraryInDB, HttpStatus.OK);
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//        }
+        Library libraryInDB = libraryService.getBookById(book_id);
+        libraryInDB.setAisle(library.getAisle());
+        libraryInDB.setName(library.getName());
+        libraryInDB.setAuthor(library.getAuthor());
+        libraryRepository.save(libraryInDB);
+        return new ResponseEntity<>(libraryInDB, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteBook/{id}")

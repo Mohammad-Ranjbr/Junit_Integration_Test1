@@ -1,5 +1,6 @@
 package com.example.SpringBootRestService.services.Implementation;
 
+import com.example.SpringBootRestService.models.Library;
 import com.example.SpringBootRestService.repositories.LibraryRepository;
 import com.example.SpringBootRestService.services.LibraryService;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,14 @@ public class LibraryServiceImpl implements LibraryService {
 
     public boolean checkBookAlreadyExist(String book_id){
         return libraryRepository.existsById(book_id);
+    }
+
+    @Override
+    public Library getBookById(String id) {
+        if(libraryRepository.findById(id).isPresent()){
+            return libraryRepository.findById(id).get();
+        }
+        return null;
     }
 
 }
