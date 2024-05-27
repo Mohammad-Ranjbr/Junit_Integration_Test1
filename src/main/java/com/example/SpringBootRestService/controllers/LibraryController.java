@@ -62,16 +62,6 @@ public class LibraryController {
 
     @PutMapping("/updateBook/{id}")
     public ResponseEntity<Library> updateBook(@PathVariable("id") String book_id , @RequestBody Library library){
-//        if(libraryRepository.findById(book_id).isPresent()) {
-//            Library libraryInDB = libraryService.getBookById(book_id);
-//            libraryInDB.setAisle(library.getAisle());
-//            libraryInDB.setName(library.getName());
-//            libraryInDB.setAuthor(library.getAuthor());
-//            libraryRepository.save(libraryInDB);
-//            return new ResponseEntity<>(libraryInDB, HttpStatus.OK);
-//        } else {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//        }
         Library libraryInDB = libraryService.getBookById(book_id);
         libraryInDB.setAisle(library.getAisle());
         libraryInDB.setName(library.getName());
@@ -82,7 +72,7 @@ public class LibraryController {
 
     @DeleteMapping("/deleteBook/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable("id") String book_id){
-        if(libraryRepository.findById(book_id).isPresent()) {
+        if(libraryService.getBookById(book_id) != null) {
             libraryRepository.deleteById(book_id);
             logger.info("Book is deleted...");
             return new ResponseEntity<>("Book Deleted Successfully",HttpStatus.OK);

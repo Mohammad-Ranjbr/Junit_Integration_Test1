@@ -7,6 +7,7 @@ import com.example.SpringBootRestService.repositories.LibraryRepository;
 import com.example.SpringBootRestService.services.Implementation.LibraryServiceImpl;
 import com.example.SpringBootRestService.services.LibraryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.aspectj.runtime.internal.Conversions;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Assertions;
@@ -151,14 +152,6 @@ class SpringBootRestServiceApplicationTests {
 
 	@Test
 	public void deleteBook_shouldReturnOk() throws Exception {
-//		when(libraryService.getBookById(buildlibrary().getId())).thenReturn(buildlibrary());
-//		//doNothing For void return type
-//		doNothing().when(libraryRepository).delete(buildlibrary());
-//		this.mockMvc.perform(MockMvcRequestBuilders.delete("api/v1/deleteBook")
-//						.contentType(MediaType.APPLICATION_JSON).content("{\"id\":\"Book-20\"}"))
-//				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"))
-//				.andDo(MockMvcResultHandlers.print());
-
 		Library library = buildlibrary();
 		when(libraryService.getBookById("Book-20")).thenReturn(library);
 		doNothing().when(libraryRepository).delete(library);
@@ -170,6 +163,28 @@ class SpringBootRestServiceApplicationTests {
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"));
 		verify(libraryService,times(1)).getBookById("Book-20");
+	}
+
+	@Test
+	public void deleteBook_shouldReturnOK() throws Exception {
+		Library library = buildlibrary();
+		when(libraryService.getBookById(any())).thenReturn(library);
+		doNothing().when(libraryRepository).deleteById(library.getId());
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/deleteBook/{id}","Book-20"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"));
+		verify(libraryService,times(1)).getBookById("Book-20");
+
+	}
+
+	@Test
+	public void deleteBook_shouldReturnNotFound() throws Exception {
+		when(libraryService.getBookById(any())).thenReturn(null);
+		doNothing().when(libraryRepository).deleteById(null);
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/deleteBook/{id}","Book-20"))
+				.andExpect(MockMvcResultMatchers.status().isNotFound());
+		verify(libraryService,times(1)).getBookById("Book-20");
+
 	}
 
 	public Library buildlibrary(){
