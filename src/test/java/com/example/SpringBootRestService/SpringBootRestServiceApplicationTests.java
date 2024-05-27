@@ -157,6 +157,42 @@ class SpringBootRestServiceApplicationTests {
 		verify(libraryService,times(1)).getBookById(library.getId());
 	}
 
+//	@Test
+//	public void deleteBook_shouldReturnOk() throws Exception {
+//		when(libraryService.getBookById(buildlibrary().getId())).thenReturn(buildlibrary());
+//		//doNothing For void return type
+//		doNothing().when(libraryRepository).delete(buildlibrary());
+//		this.mockMvc.perform(MockMvcRequestBuilders.delete("api/v1/deleteBook")
+//						.contentType(MediaType.APPLICATION_JSON).content("{\"id\":\"Book-20\"}"))
+//				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"))
+//				.andDo(MockMvcResultHandlers.print());
+//	}
+
+	@Test
+	public void deleteBook_shouldReturnOk() throws Exception {
+//		when(libraryService.getBookById(buildlibrary().getId())).thenReturn(buildlibrary());
+//		//doNothing For void return type
+//		doNothing().when(libraryRepository).delete(buildlibrary());
+//		this.mockMvc.perform(MockMvcRequestBuilders.delete("api/v1/deleteBook")
+//						.contentType(MediaType.APPLICATION_JSON).content("{\"id\":\"Book-20\"}"))
+//				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"))
+//				.andDo(MockMvcResultHandlers.print());
+
+		Library library = buildlibrary();
+
+		when(libraryService.getBookById("Book-20")).thenReturn(library);
+		doNothing().when(libraryRepository).delete(library);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String libraryJson = objectMapper.writeValueAsString(library);
+
+		mockMvc.perform(MockMvcRequestBuilders.delete("api/v1/deleteBook")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(libraryJson))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string("Book Deleted Successfully"));
+	}
+
 	public Library buildlibrary(){
 		Library library = new Library();
 		library.setAisle(20);
