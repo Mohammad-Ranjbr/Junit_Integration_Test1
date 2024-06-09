@@ -49,7 +49,7 @@ public class LibraryController {
     public ResponseEntity<Library> getBooks(@PathVariable("id") String book_id){
         if(libraryRepository.findById(book_id).isPresent()){
             return new ResponseEntity<>(libraryRepository.findById(book_id).get(),HttpStatus.OK);
-        } else { // SEARCH
+        } else { //This class is used to specify the status of the HTTP response that should be sent to the client when a throw is made.
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
