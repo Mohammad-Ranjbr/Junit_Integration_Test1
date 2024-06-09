@@ -56,9 +56,9 @@ class SpringBootRestServiceApplicationTests {
 	public void checkBuildIDLogin(){
 		LibraryService libraryService = new LibraryServiceImpl(libraryRepository);
 		String id1 = libraryService.buildID("ZMAN",10);
-		Assertions.assertEquals(id1,"OLD-ZMAN-10");
+		Assertions.assertEquals("OLD-ZMAN-10",id1);
 		String id2 = libraryService.buildID("Book",11);
-		Assertions.assertEquals(id2,"Book-11");
+		Assertions.assertEquals("Book-11",id2);
 	}
 
 	@Test

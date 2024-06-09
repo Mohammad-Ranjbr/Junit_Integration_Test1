@@ -11,6 +11,8 @@ import org.springframework.http.*;
 
 import java.util.Objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 public class SpringBootRestServiceIT { // this is a convention for set name to integration test class with maven class name should end with IT
                                         // in unit test in default should end with Tests
@@ -40,12 +42,19 @@ public class SpringBootRestServiceIT { // this is a convention for set name to i
                         "author": "Mohammad",
                         "name": "Spring Security"
                     }
-                ]""";
+                ]
+                """;
         TestRestTemplate testRestTemplate = new TestRestTemplate();
+        //The String.class association means that the type expected in the HTTP response is a String. In other words,
+        //this request expects the server to return the response body as a text string (JSON in String format).
         ResponseEntity<String> responseEntity = testRestTemplate.getForEntity("http://localhost:8080/api/v1/getBooks/author/Mohammad",String.class);
         System.out.println(responseEntity.getStatusCode());
         System.out.println(responseEntity.getBody());
+        //The third parameter false means that the comparison is not strict and the order of the elements does not matter.
+        //To test the JSON data
         JSONAssert.assertEquals(expected,responseEntity.getBody(),false);
+        //To check the status of the http response
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
