@@ -62,6 +62,7 @@ public class SpringBootRestServiceIT { // this is a convention for set name to i
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        //HttpEntity automatic convert object to JSON
         HttpEntity<Library> request = new HttpEntity<>(buildlibrary(),httpHeaders);
         ResponseEntity<String> responseEntity = testRestTemplate.postForEntity("http://localhost:8080/api/v1/addBook",request,String.class);
         Assertions.assertEquals(HttpStatus.CREATED,responseEntity.getStatusCode());

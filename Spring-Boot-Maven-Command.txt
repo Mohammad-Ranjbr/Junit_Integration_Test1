@@ -1,0 +1,45 @@
+Maven Commands
+
+1- Strat the Spring Boot Server : mvn spring-boot:run
+
+2- Start the Spring Boot with custom profile : mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+in pom.xml file
+
+<profiles>
+	<profile>
+		<id>dev</id>
+		<properties>
+			<activatedProperties>dev</activatedProperties>
+		</proterties>
+	</profile>
+</profiles>
+
+in application.properties file
+
+spring.profiles.active=@activatedProperties@
+
+4- Run Unit Tests
+mvn test
+
+5- Run only Integrated Tests
+mvn failsafe:integration-test
+
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifacId>maven-failsafe-plugin</artifactId>
+	<version>2.17</version>
+	<execution>
+		<execution>
+			<id>integration-tsets</id>
+			<goals>
+				<goal>integration-test</goal>
+				<goal>verify</goal>
+			</goals>
+		<execution>
+	</executions>
+</plugin>
+
+6- Run all Tests
+mvn integration-test
+
